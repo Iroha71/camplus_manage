@@ -1,8 +1,9 @@
 require('dotenv').config()
-const { BASE_URL } = process.env
+const { BASE_URL, GAME_URL } = process.env
 export default {
   env: {
-    BASE_URL
+    BASE_URL,
+    GAME_URL
   },
   mode: 'spa',
   /*
@@ -27,6 +28,7 @@ export default {
   ** Global CSS
   */
   css: [
+    '~/assets/scss/style.scss'
   ],
   /*
   ** Plugins to load before mounting the App
