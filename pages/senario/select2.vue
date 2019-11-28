@@ -3,7 +3,7 @@
     <div class="character-card col-4" v-for="(character, index) in characters" :style="setCharacterStyle(index)" v-show="!((character.id==7||character.id==10|| character.id==11 || character.id==6)&&selectingCharacter.id==8)">
         <div class="wrap">
             <span>{{ character.id }}</span>
-            <img :src="`/characters/${character.id}.png`" :class="{'herit': selectingCharacter.id == 8}" />
+            <img :src="`/characters/${character.id}.png`" :class="{'herit': selectingCharacter.id == 8}" @click="returnGame()" />
         </div>
     </div>
     <div class="col-6 offset-3 send-button-area">
@@ -16,6 +16,14 @@
         </button>
     </div>
     <MessageWindow :name="selectingCharacter.name" :text="selectingCharacter.text" :color="selectingCharacter.color"></MessageWindow>
+    <b-modal id="noSenarioModal" hide-footer>
+        <div class="d-block text-center">
+            近日実装予定(大嘘)
+        </div>
+        <b-button class="mt-3" block @click="$bvModal.hide('noSenarioModal')">
+            閉じる
+        </b-button>
+    </b-modal>
 </div>
 </template>
 
@@ -26,7 +34,7 @@ export default {
         return {
             currentIndex: 0,
             characters: [
-                { id: 1, name: 'ひーさん', color: '#d460dd', text: "10人の中で最年長にして病弱。\n苦手なものは階段。7階の教室に上がる途中でいつも力尽きている。デジタル機器が苦手でスマホでメールが打てない。" },
+                { id: 1, name: 'ひーさん', color: '#d460dd', text: "10人の中で最年長にして病弱。\n苦手なものは階段。7階の教室に上がる途中でいつも力尽きている。デジタル機器が苦手でスマホでメールが打てない。", senario: 'h2-1', label: '*hisan' },
                 { id: 2, name: 'ニコ', color: '#84a614', text: "明るくエネルギッシュなオタク。\n守備範囲はガンダムからアイドルまで幅広い。マイペースで人の話をあまり聞かないタイプだが特に害はない。" },
                 { id: 3, name: 'ミッツ', color: '#e1c61c', text: "いつも電卓とメガホンを携帯しており、儲け話に目がない。\nそして何故か都市伝説マニア。趣味は怪しい通販グッズ収集。" },
                 { id: 4, name: 'ヨウコ', color: '#ff6f92', text: "いつも穏やかで優しい保険委員長さん。\n天然なところもあるが頑張り屋で一生懸命。笑顔でたまに怖いことを言ったりもする。" },
@@ -67,6 +75,15 @@ export default {
                 }else{
                     this.currentIndex--
                 }
+            }
+        },
+        returnGame:function(){
+            const senario = this.selectingCharacter.senario
+            const label = this.selectingCharacter.label
+            if(senario && label){
+                location.href = `${process.env.GAME_URL}?storage=${senario}&target=${label}`
+            }else{
+                this.$bvModal.show('noSenarioModal')
             }
         }
     },
