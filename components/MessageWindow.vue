@@ -84,6 +84,7 @@ export default {
         border-radius: 10px;
         transform: rotateZ(-2deg);
         transition: .5s;
+        font-family: 'Mgen';
     }
     .text-area{
         font-size: 1.25rem;
