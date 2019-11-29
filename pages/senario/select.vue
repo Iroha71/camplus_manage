@@ -101,6 +101,11 @@ export default {
     perspective: 80px;
     overflow: hidden;
     background-image: url("/images/bg-image.jpg");
+    animation: bg-roop 120s linear infinite;
+    @keyframes bg-roop {
+        0%{ background-position: 0 0; }
+        100%{ background-position: -1950px 0 }
+    }
     .character-card{
         height: 90vh;
         position: absolute;
