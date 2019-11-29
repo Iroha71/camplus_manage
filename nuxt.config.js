@@ -1,5 +1,10 @@
-
+require('dotenv').config()
+const { BASE_URL, GAME_URL } = process.env
 export default {
+  env: {
+    BASE_URL,
+    GAME_URL
+  },
   mode: 'spa',
   /*
   ** Headers of the page
@@ -23,11 +28,14 @@ export default {
   ** Global CSS
   */
   css: [
+    '~/assets/scss/style.scss'
   ],
   /*
   ** Plugins to load before mounting the App
   */
   plugins: [
+    '~/plugins/axios.js',
+    '~/plugins/persistedstate.js'
   ],
   /*
   ** Nuxt.js dev-modules
