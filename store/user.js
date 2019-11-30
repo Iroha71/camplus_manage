@@ -11,10 +11,10 @@ export const mutations = {
         state.name = user.name
         state.email = user.email
     },
-    setAuth(state, {token, client, uid}){
-        state.token = token,
-        state.client = client,
-        state.uid = uid
+    setAuth(state, auth){
+        state.token = auth['access-token'],
+        state.client = auth['client'],
+        state.uid = auth['uid']
     }
 }
 
@@ -22,8 +22,8 @@ export const actions = {
     setUser(context, user){
         context.commit('setUser', user)
     },
-    setAuth(context, {token, client, uid}){
-        context.commit('setAuth', {token, client, uid})
+    setAuth(context, auth){
+        context.commit('setAuth', auth)
     }
 }
 
