@@ -23,7 +23,7 @@
     <section class="row">
         <div class="col-6 offset-3">
             <button class="btn-large btn btn-danger" @click="$router.push('/')">TOPへ戻る</button>
-            <button class="btn-large btn btn-info">おすすめ学科提案結果も見る</button>
+            <button class="btn-large btn btn-info" @click="$router.push('/play-result')">おすすめ学科提案結果も見る</button>
         </div>
     </section>
 </div>

@@ -6,7 +6,7 @@
     <b-collapse is-nav>
         <b-navbar-nav>
             <b-nav-item to="/trend">参加者の傾向</b-nav-item>
-            <b-nav-item>おすすめ学科提案結果</b-nav-item>
+            <b-nav-item to="/play-result">おすすめ学科提案結果</b-nav-item>
         </b-navbar-nav>
         <button class="btn btn-danger"><img src="/images/logout.png">ログアウト</button>
     </b-collapse>
