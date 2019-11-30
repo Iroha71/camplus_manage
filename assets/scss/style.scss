@@ -34,3 +34,13 @@
     src: url('../font/light-novel.otf') format("opentype");
 }
 
+/* アニメーション */
+.fade{
+    &-enter-active, &-leave-active{
+        transition: .3s;
+    }
+    &-enter, &-leave-to{
+        opacity: 0;
+    }
+}
+
