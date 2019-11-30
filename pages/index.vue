@@ -3,9 +3,9 @@
     <div class="col-6 chara-area">
       <img :src="`/characters/${selectingChara.id}.png`"/>
     </div>
-    <div class="col-4 menu-area">
-      <IconLink title="参加者の傾向" link="/senario/select" />
-      <IconLink title="おすすめ学科提案結果" link="/" />
+    <div class="col-6 menu-area">
+      <IconLink title="参加者の傾向" link="/senario/select" icon="/images/graph.png" />
+      <IconLink title="おすすめ学科提案結果" link="/" icon="/images/proposal.png" />
     </div>
   </div>
 </template>
