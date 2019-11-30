@@ -22,5 +22,6 @@ export default {
 }
 .container-fluid{
     height: 90vh;
+    font-family: 'light-novel'
 }
 </style>
