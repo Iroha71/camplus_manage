@@ -3,7 +3,8 @@ export default({route, redirect, store}) => {
         const userInfo = JSON.parse(localStorage.getItem('camplus_manage'))
         if(userInfo.user.token){
             store.dispatch('user/setUser', userInfo.user)
-            store.dispatch('user/setAuth', userInfo.user)
+            const authInfo = { 'access-token': userInfo.user.token, 'client': userInfo.user.client, 'uid': userInfo.user.uid }
+            store.dispatch('user/setAuth', authInfo)
         }else{
             checkRequireAuthPage(route.path, redirect)
         }

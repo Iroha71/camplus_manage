@@ -6,26 +6,36 @@
             <div class="result-view system">
                 <img src="/images/pc.png" />
                 <h4>システム</h4>
-                <h3>20</h3>
+                <h3>{{ fields[0].total_num }}人</h3>
             </div>
             <div class="result-view network">
                 <img src="/images/server.png" />
                 <h4>ネットワーク</h4>
-                <h3>20</h3>
+                <h3>{{ fields[1].total_num }}人</h3>
             </div>
             <div class="result-view embeded">
                 <img src="/images/drone.png" />
                 <h4>電子システム</h4>
-                <h3>20</h3>
+                <h3>{{ fields[2].total_num }}人</h3>
             </div>
         </div>
     </div>
+    <section class="row">
+        <div class="col-6 offset-3">
+            <button class="btn-large btn btn-danger" @click="$router.push('/')">TOPへ戻る</button>
+            <button class="btn-large btn btn-info">おすすめ学科提案結果も見る</button>
+        </div>
+    </section>
 </div>
 </template>
 
 <script>
 export default {
     layout: 'manage',
+    async asyncData({store}) {
+        const fields = await store.dispatch('api/req', {method: 'get', endpoint: '/v1/field', params: null})
+        return { fields: fields.data }
+    },
     data() {
         return {
             items: [
@@ -68,6 +78,14 @@ export default {
     }
     .embeded{
         background: #fcac01;
+    }
+}
+section{
+    margin-top: 20px;
+    button{
+        margin-bottom: 10px !important;
+        display: block;
+        margin: auto;
     }
 }
 </style>
