@@ -1,72 +1,50 @@
 <template>
-  <div class="container">
-    <div>
-      <logo />
-      <h1 class="title">
-        camplus_manage
-      </h1>
-      <h2 class="subtitle">
-        My splendiferous Nuxt.js project
-      </h2>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
-        >
-          GitHub
-        </a>
-      </div>
+  <div class="row">
+    <div class="col-6 chara-area">
+      <img :src="`/characters/${selectingChara.id}.png`"/>
+    </div>
+    <div class="col-6 menu-area">
+      <IconLink title="参加者の傾向" link="/senario/select" icon="/images/graph.png" />
+      <IconLink title="おすすめ学科提案結果" link="/" icon="/images/proposal.png" />
     </div>
   </div>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
-
+import IconLink from '@/components/IconLink.vue'
 export default {
   components: {
-    Logo
-  }
+    IconLink
+  },
+  layout: 'manage',
+  mounted() {
+    const rand = Math.floor(Math.random()*10)
+    this.selectingChara = this.$store.getters[`characters/c${rand+1}`]
+    this.$store.dispatch('characters/setCurrentCharacter', this.selectingChara)
+  },
+  data() {
+    return {
+      selectingChara: '',
+      isHover: false
+    }
+  },
 }
 </script>
 
-<style>
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
+<style lang="scss" scoped>
+.row{
+  height: 100%;
+  .chara-area{
+    height: 100%;
+    text-align: center;
+    img{
+      height: 100%;
+    }
+  }
+  .menu-area{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
 }
 </style>
