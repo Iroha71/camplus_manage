@@ -29,3 +29,18 @@
     src: url('../font/mgenplus-1cp-black.ttf') format("truetype");
 }
 
+@font-face{
+    font-family: 'light-novel';
+    src: url('../font/light-novel.otf') format("opentype");
+}
+
+/* アニメーション */
+.fade{
+    &-enter-active, &-leave-active{
+        transition: .3s;
+    }
+    &-enter, &-leave-to{
+        opacity: 0;
+    }
+}
+

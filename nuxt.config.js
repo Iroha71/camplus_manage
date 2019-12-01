@@ -23,7 +23,7 @@ export default {
   /*
   ** Customize the progress-bar color
   */
-  loading: { color: '#fff' },
+  loading: '~/components/Load.vue',
   /*
   ** Global CSS
   */
@@ -66,5 +66,8 @@ export default {
     */
     extend (config, ctx) {
     }
+  },
+  router: {
+    middleware: 'filter'
   }
 }

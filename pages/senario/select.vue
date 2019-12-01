@@ -1,9 +1,13 @@
 <template lang="html">
 <div class="row" :class="{ 'distopia': selectingCharacter.id == 8 }">
-    <div class="character-card col-4" v-for="(character, index) in characters" :style="setCharacterStyle(index)" v-show="!((character.id==7||character.id==10|| character.id==11 || character.id==6)&&selectingCharacter.id==8)">
+    <div class="character-card col-4"
+        v-for="(character, index) in characters"
+        :style="setCharacterStyle(index)"
+        @click="returnGame()"
+        v-show="!((character.id==7||character.id==10|| character.id==11 || character.id==6)&&selectingCharacter.id==8)">
         <div class="wrap">
             <span>{{ character.id }}</span>
-            <img :src="`/characters/${character.id}.png`" :class="{'herit': selectingCharacter.id == 8}" @click="returnGame()" />
+            <img :src="`/characters/${character.id}.png`" :class="{'herit': selectingCharacter.id == 8}" />
         </div>
     </div>
     <div class="col-6 offset-3 send-button-area">
@@ -18,7 +22,7 @@
     <MessageWindow :name="selectingCharacter.name" :text="selectingCharacter.text" :color="selectingCharacter.color"></MessageWindow>
     <b-modal id="noSenarioModal" hide-footer>
         <div class="d-block text-center">
-            近日実装予定(大嘘)
+            comming soon!!
         </div>
         <b-button class="mt-3" block @click="$bvModal.hide('noSenarioModal')">
             閉じる
@@ -29,12 +33,21 @@
 
 <script>
 import MessageWindow from '~/components/MessageWindow.vue'
+import { nextTick } from 'q'
 export default {
+    mounted() {
+        this.$nextTick(() => {
+            this.$nuxt.$loading.start()
+            setTimeout(() => {
+                this.$nuxt.$loading.finish()
+            }, 500);
+        })
+    },
     data() {
         return {
             currentIndex: 0,
             characters: [
-                { id: 1, name: 'ひーさん', color: '#d460dd', text: "10人の中で最年長にして病弱。\n苦手なものは階段。7階の教室に上がる途中でいつも力尽きている。デジタル機器が苦手でスマホでメールが打てない。", senario: 'h2-1', label: '*hisan' },
+                { id: 1, name: 'ひーさん', color: '#d460dd', text: "10人の中で最年長にして病弱。\n苦手なものは階段。7階の教室に上がる途中でいつも力尽きている。デジタル機器が苦手でスマホでメールが打てない。", senario: 'h2-1', label: '*selected' },
                 { id: 2, name: 'ニコ', color: '#84a614', text: "明るくエネルギッシュなオタク。\n守備範囲はガンダムからアイドルまで幅広い。マイペースで人の話をあまり聞かないタイプだが特に害はない。" },
                 { id: 3, name: 'ミッツ', color: '#e1c61c', text: "いつも電卓とメガホンを携帯しており、儲け話に目がない。\nそして何故か都市伝説マニア。趣味は怪しい通販グッズ収集。" },
                 { id: 4, name: 'ヨウコ', color: '#ff6f92', text: "いつも穏やかで優しい保険委員長さん。\n天然なところもあるが頑張り屋で一生懸命。笑顔でたまに怖いことを言ったりもする。" },
@@ -42,6 +55,7 @@ export default {
                 { id: 6, name: 'ムッちゃん', color: '#9c7055', text: "常に指人形を両手に装着しておりコミュニケーションはうさぎと猫がすべてこなす。人形がないと慌てる極度の人見知りだが寂しがり屋でひとりぼっちは別として苦手。"},
                 { id: 7, name: 'なっちゃん', color: '#c0b400', text: "どこにでもいる普通の女の子だが時代劇が好きであり、「白馬に乗った王子様＝遠山の金さん」だと思っている。\n実家が貧乏でめっちゃバイトしている。"},
                 { id: 8, name: 'ハチベエ', color: '#d67a03', text: "――――その日、爆弾が落ちた。"},
+                { id: 9, name: '九鬼さん', color: '#d53a3b', text: "" },
                 { id: 10, name: '会長', color: '#00a1ad', text: "何でも完璧にこなすカリスマ。クールで口調はやや威圧的だが面倒見はワリといい。\nただ料理だけは苦手で包丁を握ると謎のオブジェが出来上がる。" },
                 { id: 11, name: 'ワン子', color: '#b7b7b7', text: "自由奔放な帰国子女。明るくポジティブで無駄にテンションが高い。\n日本が大好きで着物作りを趣味にしている。"}
             ],
@@ -78,8 +92,11 @@ export default {
             }
         },
         returnGame:function(){
-            const senario = this.selectingCharacter.senario
+            let senario = this.selectingCharacter.senario
             const label = this.selectingCharacter.label
+            if(this.$route.query.is_maigo == 'false'){
+                senario = 'h2-1-2'
+            }
             if(senario && label){
                 location.href = `${process.env.GAME_URL}?storage=${senario}&target=${label}`
             }else{
@@ -91,7 +108,7 @@ export default {
         selectingCharacter:function(){
             return this.characters[this.currentIndex]
         }
-    }
+    },
 }
 </script>
 
@@ -114,6 +131,7 @@ export default {
         left: 0;
         margin: auto;
         transition: .5s;
+        cursor: pointer;
         .wrap{
             height: 100%;
             text-align: center;

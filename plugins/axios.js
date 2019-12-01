@@ -16,6 +16,12 @@ export default function({$axios, store, redirect, route}){
                 if(route.path !== '/login'){
                     alert('ログインしてください')
                     redirect('/login')
+                }else{
+                    redirect('/login?authError=401')
+                }
+            }else{
+                if(code === 500 && route.path === '/login'){
+                    redirect('/login?authError=500')
                 }
             }
         }
