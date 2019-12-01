@@ -39,6 +39,11 @@ export const state = () => ({
         name: 'ハチベエ',
         color: '#d67a03'
     },
+    c9: {
+        id: 9,
+        name: '九鬼さん',
+        color: '#'
+    },
     c10: {
         id: 10,
         name: '会長',
@@ -73,6 +78,7 @@ export const getters = {
     c6: state => state.c6,
     c7: state => state.c7,
     c8: state => state.c8,
+    c9: state => state.c9,
     c10: state => state.c10,
     c11: state => state.c11,
 }
