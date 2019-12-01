@@ -1,6 +1,8 @@
 <template lang="html">
 <div class="row root">
-    <div class="col-3 form">
+    <div class="col-lg-3 col-sm-12 form">
+        <p class="text-danger" v-if="error">{{ error }}</p>
+        <p class="text-danger" v-if="authError">{{ authError }}</p>
         <div class="form-group">
             <label>メールアドレス</label>
             <input type="email" class="form-control" v-model="email">
@@ -21,7 +23,8 @@ export default {
     data() {
         return {
             email: '',
-            password: ''
+            password: '',
+            error: ''
         }
     },
     methods: {
@@ -29,8 +32,10 @@ export default {
             this.postUser().then(res => {
                 this.$router.push('/')
             })
+            setTimeout(() => { this.$nuxt.$loading.finish() }, 500);
         },
         async postUser(){
+            this.$nuxt.$loading.start()
             const loginInfo = { email: this.email, password: this.password }
             const user = await this.$store.dispatch('api/req', {method: 'post', endpoint: 'auth/sign_in', params: loginInfo})
             this.$store.dispatch('user/setUser', user.data)
@@ -38,9 +43,11 @@ export default {
         }
     },
     computed: {
-        error(){
+        authError(){
             if(this.$route.query.authError == 401){
                 return 'メールアドレスまたはパスワードが間違っています'
+            }else if(this.$route.query.authError === 500){
+                return '通信に失敗しました'
             }else{
                 return ''
             }
