@@ -20,7 +20,7 @@ export default {
   mounted() {
     this.$nextTick(() => {
       const rand = Math.floor(Math.random()*11) + 1
-      this.selectingChara = this.$store.getters[`characters/c${1}`]
+      this.selectingChara = this.$store.getters[`characters/c${rand}`]
       this.$store.dispatch('characters/setCurrentCharacter', this.selectingChara)
     })
   },
