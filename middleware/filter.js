@@ -6,17 +6,17 @@ export default({route, redirect, store}) => {
             const authInfo = { 'access-token': userInfo.user.token, 'client': userInfo.user.client, 'uid': userInfo.user.uid }
             store.dispatch('user/setAuth', authInfo)
         }else{
-            checkRequireAuthPage(route.path, redirect)
+            checkRequireAuthPage(route, redirect)
         }
     }catch(error){
         console.log('認証情報がありません' + error)
-        checkRequireAuthPage(route.path, redirect)
+        checkRequireAuthPage(route, redirect)
     }
 }
 
-const checkRequireAuthPage = (requestRoute, redirect) => {
-    const ignoreRoute = ['/login', '/senario/select']
-    if(ignoreRoute.indexOf(requestRoute) < 0){
+const checkRequireAuthPage = (route, redirect) => {
+    const ignoreRoute = ['/login', '/senario/select', `/player/${route.params.id}`]
+    if(ignoreRoute.indexOf(route.path) < 0){
         redirect('/login')
     }
 }
