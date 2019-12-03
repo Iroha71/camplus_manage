@@ -8,22 +8,34 @@ export default function({$axios, store, redirect, route}){
     })
 
     $axios.onError(error => {
-        const code = parseInt(error.response.status)
-        if(isNaN(code)){
-            alert('通信に失敗しました')
-        }else{
-            if(code === 401){
-                if(route.path !== '/login'){
-                    alert('ログインしてください')
-                    redirect('/login')
-                }else{
-                    redirect('/login?authError=401')
-                }
-            }else{
-                if(code === 500 && route.path === '/login'){
-                    redirect('/login?authError=500')
-                }
-            }
+        try{
+            const code = parseInt(error.response.status)
+            $nuxt.error({
+                statusCode: code,
+                message: 'エラー'
+            })
+            // 
+            // if(isNaN(code)){
+            //     alert('通信に失敗しました')
+            // }else{
+            //     if(code === 401){
+            //         if(route.path !== '/login'){
+            //             alert('ログインしてください')
+            //             redirect('/login')
+            //         }else{
+            //             redirect('/login?authError=401')
+            //         }
+            //     }else{
+            //         if(code === 500 && route.path === '/login'){
+            //             redirect('/login?authError=500')
+            //         }
+            //     }
+            // }
+        }catch(err){
+            $nuxt.error({
+                statusCode: 500,
+                message: 'エラー'
+            })
         }
     })
 }
