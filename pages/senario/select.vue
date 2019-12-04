@@ -3,16 +3,13 @@
     <div class="character-card col-4"
         v-for="(character, index) in characters"
         :style="setCharacterStyle(index)"
-        @click="returnGame()"
-        v-show="!((character.id==7||character.id==10|| character.id==11 || character.id==6)&&selectingCharacter.id==8)">
+        v-show="!((character.id==6 || character.id==7 ||character.id==9 || character.id==10)&&selectingCharacter.id==8)">
         <div class="wrap">
-            <span>{{ character.id }}</span>
-            <img :src="`/characters/${character.id}.png`" :class="{'herit': selectingCharacter.id == 8}" />
+            <span @click="returnGame(character.id)">{{ character.id }}</span>
+            <img :src="`/characters/${character.id}.png`"
+                :class="{'herit': selectingCharacter.id == 8}"
+                @click="returnGame(character.id)" />
         </div>
-    </div>
-    <div class="col-6 offset-3 send-button-area">
-        <button class="btn btn-danger" @click="changePosition('prev')">◀</button>
-        <button class="btn btn-info" @click="changePosition('next')">▶</button>
     </div>
     <div class="col-6 offset-3 select-area">
         <button class="btn btn-info"  v-for="number in 11" @click="currentIndex=number-1" :class="{ 'btn-danger': selectingCharacter.id==(number) }">
@@ -47,7 +44,7 @@ export default {
         return {
             currentIndex: 0,
             characters: [
-                { id: 1, name: 'ひーさん', color: '#d460dd', text: "10人の中で最年長にして病弱。\n苦手なものは階段。7階の教室に上がる途中でいつも力尽きている。デジタル機器が苦手でスマホでメールが打てない。", senario: 'h2-1', label: '*selected' },
+                { id: 1, name: 'ひーさん', color: '#d460dd', text: "11人の中で最年長にして病弱。\n苦手なものは階段。7階の教室に上がる途中でいつも力尽きている。デジタル機器が苦手でスマホでメールが打てない。", senario: 'h2-1', label: '*selected' },
                 { id: 2, name: 'ニコ', color: '#84a614', text: "明るくエネルギッシュなオタク。\n守備範囲はガンダムからアイドルまで幅広い。マイペースで人の話をあまり聞かないタイプだが特に害はない。" },
                 { id: 3, name: 'ミッツ', color: '#e1c61c', text: "いつも電卓とメガホンを携帯しており、儲け話に目がない。\nそして何故か都市伝説マニア。趣味は怪しい通販グッズ収集。" },
                 { id: 4, name: 'ヨウコ', color: '#ff6f92', text: "いつも穏やかで優しい保険委員長さん。\n天然なところもあるが頑張り屋で一生懸命。笑顔でたまに怖いことを言ったりもする。" },
@@ -59,8 +56,6 @@ export default {
                 { id: 10, name: '会長', color: '#00a1ad', text: "何でも完璧にこなすカリスマ。クールで口調はやや威圧的だが面倒見はワリといい。\nただ料理だけは苦手で包丁を握ると謎のオブジェが出来上がる。" },
                 { id: 11, name: 'ワン子', color: '#b7b7b7', text: "自由奔放な帰国子女。明るくポジティブで無駄にテンションが高い。\n日本が大好きで着物作りを趣味にしている。"}
             ],
-            visibleRange: 3,
-            reserseIndex: 7
         }
     },
     components: {
@@ -68,7 +63,7 @@ export default {
     },
     methods: {
         setCharacterStyle:function(index){
-            let layer = this.currentIndex - index
+            const layer = this.currentIndex - index
             let addStyle = `transform: translate3d(${layer*(-80)}%, -50%, ${Math.abs(layer)*(-30)}px); z-index: ${Math.abs(layer)*(-1)};`
             addStyle += `filter: drop-shadow(5px 5px ${this.characters[index].color}); color: ${this.characters[index].color};`
             return addStyle
@@ -91,17 +86,26 @@ export default {
                 }
             }
         },
-        returnGame:function(){
-            let senario = this.selectingCharacter.senario
-            const label = this.selectingCharacter.label
-            if(this.$route.query.is_maigo == 'false'){
-                senario = 'h2-1-2'
-            }
-            if(senario && label){
-                location.href = `${process.env.GAME_URL}?storage=${senario}&target=${label}`
+        returnGame:function(character_id){
+            if(character_id == this.selectingCharacter.id){
+                let senario = this.selectingCharacter.senario
+                const label = this.selectingCharacter.label
+                if(this.$route.query.is_maigo == 'false'){
+                    senario = 'h2-1-2'
+                }
+                if(senario && label){
+                    location.href = `${process.env.GAME_URL}?storage=${senario}&target=${label}`
+                }else{
+                    this.$bvModal.show('noSenarioModal')
+                }
             }else{
-                this.$bvModal.show('noSenarioModal')
+                if(this.selectingCharacter.id < character_id){
+                    this.changePosition('next')
+                }else{
+                    this.changePosition('prev')
+                }
             }
+            
         }
     },
     computed: {
@@ -147,37 +151,31 @@ export default {
                 background: #fff;
                 border-radius: 10px;
                 height: 100%;
+                transition: .5s;
+                &:hover{
+                    background: #dfdfdf;
+                }
                 /* ハチベエ */
                 &.herit{
                     background: inherit;
                     filter: drop-shadow(0,0, inherit)
                 }
             }
-        }
+        }   
     }
     /* ハチベエ */
     &.distopia{
         background: url("/images/distpia.jpg");
         background-repeat: no-repeat;
         background-size: cover;
+        animation: none;
     }
     .select-area{
         position: absolute;
         bottom: 40%;
         display: flex;
         justify-content: space-between;
-        z-index: 3;
-        button{
-            z-index: 2;
-        }
-    }
-    .send-button-area{
-        position: absolute;
-        bottom: 60%;
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        z-index: 2;
+        z-index: 0;
         button{
             z-index: 2;
         }
