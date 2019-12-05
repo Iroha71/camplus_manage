@@ -9,7 +9,6 @@ export default({route, redirect, store}) => {
             checkRequireAuthPage(route, redirect)
         }
     }catch(error){
-        console.log('認証情報がありません' + error)
         checkRequireAuthPage(route, redirect)
     }
 }
