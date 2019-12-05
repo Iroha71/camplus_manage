@@ -1,7 +1,7 @@
 <template lang="html">
 <div class="row">
-    <h2>{{ player.name }}さんへのおすすめ学科は</h2>
-    <h3>{{ player.field.name }}</h3>
+    <h2 v-if="player.name">{{ player.name }}さんへのおすすめ学科は</h2>
+    <h3 v-if="player.field">{{ player.field.name }}</h3>
 </div>
 </template>
 
