@@ -15,7 +15,7 @@ export default({route, redirect, store}) => {
 
 const checkRequireAuthPage = (route, redirect) => {
     console.log(route.path)
-    const ignoreRoute = ['/login', '/senario/select', `/player/${route.params.id}`]
+    const ignoreRoute = ['/login', '/senario/select/', `/player/${route.params.id}`]
     if(ignoreRoute.indexOf(route.path) < 0){
         redirect('/login')
     }
