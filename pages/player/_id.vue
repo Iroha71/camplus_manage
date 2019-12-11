@@ -1,24 +1,31 @@
 <template lang="html">
 <div class="row">
-    <h2 v-if="player.name">{{ player.name }}さんへのおすすめ学科は</h2>
-    <h3 v-if="player.field">{{ player.field.name }}</h3>
+    <h2 class="recommend">○○さんのおすすめ学科は電子システムです!!</h2>
 </div>
 </template>
 
 <script>
-export default {
-    async asyncData({store, route}) {
-        const player_id = await route.params.id
-        const player = await store.dispatch('api/req', {method: 'get', endpoint: `v1/player/${player_id}`, params: null})
-        console.log(player.data)
-        return { player: player.data }
-    },
-}
+// export default {
+//     async asyncData({store, route}) {
+//         const player_id = await route.params.id
+//         const player = await store.dispatch('api/req', {method: 'get', endpoint: `v1/player/${player_id}`, params: null})
+//         console.log(player.data)
+//         return { player: player.data }
+//     },
+// }
 </script>
 
 <style lang="scss" scoped>
 .row{
     height: 100%;
     background-image: url("/images/bg-image.jpg");
+}
+//h2{
+    
+//}
+
+.recommend{
+    margin:auto;
+    font-family: 'light-novel'
 }
 </style>
