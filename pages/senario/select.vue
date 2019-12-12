@@ -11,7 +11,7 @@
                 @click="returnGame(character.id)" />
         </div>
     </div>
-    <div class="col-6 offset-3 select-area">
+    <div class="col-lg-6 offset-lg-3 d-lg-flex d-md-none select-area">
         <button class="btn btn-info"  v-for="number in 11" @click="currentIndex=number-1" :class="{ 'btn-danger': selectingCharacter.id==(number) }">
             {{ number }}
         </button>

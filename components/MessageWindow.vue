@@ -1,5 +1,5 @@
 <template lang="html">
-<div class="frame col-6">
+<div class="frame col-lg-6 col-md-12 col-sm-12">
     <div class="nameplate" :style="setTheme(true)">
         <span>{{ name }}</span>
     </div>
@@ -70,7 +70,7 @@ export default {
     position: absolute;
     right: 0;
     left: 0;
-    bottom: 15%;
+    bottom: 5%;
     margin: auto;
     z-index: 2;
     .nameplate{
